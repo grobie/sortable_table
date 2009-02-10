@@ -9,14 +9,14 @@ module SortableTable
             extend ClassMethods
           end
         end
-        
+
         module ClassMethods
           def sortable_attributes(*args)
             mappings           = pop_hash_from_list(args)
             acceptable_columns = join_array_and_hash_values(args, mappings)
             define_sort_order(acceptable_columns, mappings)
           end
-          
+
           def pop_hash_from_list(args)
             if args.last.is_a?(Hash)
               args.pop
@@ -24,12 +24,12 @@ module SortableTable
               {}
             end
           end
-          
+
           def join_array_and_hash_values(array, hash)
-            array.collect { |each| each.to_s } + 
+            array.collect { |each| each.to_s } +
               hash.keys.collect { |each| each.to_s }
           end
-          
+
           def define_sort_order(acceptable_columns, mappings)
             define_method(:default_sort_column) do
               acceptable_columns.first
@@ -37,7 +37,7 @@ module SortableTable
 
             attr_accessor :sortable_table_direction
 
-            define_method(:sort_order) do |*default| 
+            define_method(:sort_order) do |*default|
               default = default.first
               direction = default_sort_direction(params[:order], default)
               column    = params[:sort] || default_sort_column
@@ -51,7 +51,7 @@ module SortableTable
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
           end
         end
-        
+
         module InstanceMethods
           def default_sort_direction(order, default)
             case
