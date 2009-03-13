@@ -42,7 +42,7 @@ module SortableTable
               direction = default_sort_direction(params[:order], default)
               column    = params[:sort] || default_sort_column
               self.sortable_table_direction = direction
-              if params[:sort] && acceptable_columns.include?(column)
+              if acceptable_columns.include?(column)
                 column = mappings[column.to_sym] || column
                 handle_compound_sorting(column, sql_sort_direction(direction))
               else
