@@ -35,7 +35,7 @@ module SortableTable
           end
 
           def sorting_default?(opts)
-            params[:sort].nil? && opts[:sort] == default_sort_column
+            params[:sort].nil? && opts[:sort].to_s == default_sort_column
           end
           
           def re_sort?(opts)
