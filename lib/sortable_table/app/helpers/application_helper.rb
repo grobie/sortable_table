@@ -39,7 +39,7 @@ module SortableTable
           end
           
           def re_sort?(opts)
-            params[:sort] == opts[:sort]
+            params[:sort] == opts[:sort].to_s
           end
           
           def reverse_order(order)
