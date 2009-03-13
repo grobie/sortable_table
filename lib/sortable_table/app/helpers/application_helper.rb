@@ -17,7 +17,8 @@ module SortableTable
               link_to(opts[:name], 
                 sortable_url(opts) + anchor, 
                 :title => opts[:title]),
-              :class => sortable_table_header_classes(opts)
+              :class => sortable_table_header_classes(opts),
+              :colspan => opts[:colspan]
           end
 
           def sortable_table_header_classes(opts)
