@@ -17,6 +17,12 @@ class Admin::UsersControllerTest < ActionController::TestCase
       "#{user.age}#{user.name}"
     end
 
+    should "not sort by unmapped key name when bogus sort is given" do
+      assert_nothing_raised do
+        get :index, :sort => 'invalid'
+      end
+    end
+
     context "GET to #index" do
       setup { get :index }
       should_display_sortable_table_header_for :name, :email, :age, :group

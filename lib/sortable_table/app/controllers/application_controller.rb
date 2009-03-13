@@ -42,12 +42,11 @@ module SortableTable
               direction = default_sort_direction(params[:order], default)
               column    = params[:sort] || default_sort_column
               self.sortable_table_direction = direction
-              if acceptable_columns.include?(column)
-                column = mappings[column.to_sym] || column
-                handle_compound_sorting(column, sql_sort_direction(direction))
-              else
-                "#{acceptable_columns.first} #{sql_sort_direction(direction)}"
-              end
+              column = acceptable_columns.first unless acceptable_columns.include?(column)
+              handle_compound_sorting(
+                mappings[column.to_sym] || column,
+                sql_sort_direction(direction)
+              )
             end
 
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
