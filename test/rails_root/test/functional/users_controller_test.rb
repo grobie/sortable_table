@@ -22,6 +22,11 @@ class UsersControllerTest < ActionController::TestCase
       "#{user.age}#{user.name}"
     end
 
+    should "show default to a title-cased version of 'sort' as the text of the header" do
+      get :index
+      assert_select 'th > a', 'Age'
+    end
+
     # block form to test an action other than :index
     should_sort_by_attributes :email do |sort, order|
       get :show, :sort => sort, :order => order

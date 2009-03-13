@@ -11,14 +11,16 @@ class ApplicationHelperTest < HelperTestCase
       self.stubs(:params).returns({ :controller => :jobs, :action => :index, :sort => nil, :order => nil })
     end
 
-    [:name, :sort].each do |param|
-      should "raise an error without default param #{param}" do
-        opts = { :name => 'name', :sort => 'sort' }
-        opts.delete param
-        assert_raise(ArgumentError) do
-          sortable_table_header opts
-        end
+    should "raise an error without default param sort" do
+      opts = { :name => 'name' }
+      assert_raise(ArgumentError) do
+        sortable_table_header opts
       end
+    end
+
+    should "not raise an error without default param name" do
+      opts = { :sort => 'sort' }
+      sortable_table_header opts
     end
 
     context 'with no params[:sort] or params[:order]' do

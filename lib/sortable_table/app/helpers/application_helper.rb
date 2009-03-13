@@ -11,10 +11,10 @@ module SortableTable
         
         module InstanceMethods
           def sortable_table_header(opts = {})
-            raise ArgumentError if opts[:name].nil? || opts[:sort].nil?
+            raise ArgumentError if opts[:sort].nil?
             anchor = opts[:anchor].blank? ? "" : "##{opts[:anchor]}"
             content_tag :th, 
-              link_to(opts[:name], 
+              link_to(opts[:name] || opts[:sort].to_s.titleize,
                 sortable_url(opts) + anchor, 
                 :title => opts[:title]),
               :class => sortable_table_header_classes(opts),

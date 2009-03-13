@@ -4,8 +4,8 @@
   <tr>
     <%= sortable_table_header :name => "Name",  :sort => "name" %>
     <%= sortable_table_header :name => "Email", :sort => "email" %>
-    <%= sortable_table_header :name => "Age",   :sort => "age" %>
-    <%= sortable_table_header :name => "Group", :sort => "group" %>
+    <%= sortable_table_header :sort => "age" %>
+    <%= sortable_table_header :sort => "group" %>
   </tr>
 
   <% @users.each do |user| %>
