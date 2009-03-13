@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
 
   sortable_attributes({:name => "users.name",
-                       :age  => "users.age",
+                       :age  => "users.age reverse",
                        :email => "users.email",
                        :group => "groups.name",
                        :age_and_name => ["age", "users.name"]})

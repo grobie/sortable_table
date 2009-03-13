@@ -43,10 +43,9 @@ module SortableTable
               column    = params[:sort] || default_sort_column
               self.sortable_table_direction = direction
               column = acceptable_columns.first unless acceptable_columns.include?(column)
-              handle_compound_sorting(
-                mappings[column.to_sym] || column,
-                sql_sort_direction(direction)
-              )
+
+              handle_compound_sorting mappings[column.to_sym] || column,
+                                      sql_sort_direction(direction)
             end
 
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
@@ -76,12 +75,16 @@ module SortableTable
             else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")
             end
           end
-          
+
           def handle_compound_sorting(column, direction)
             if column.is_a?(Array)
-              column.collect { |each| "#{each} #{direction}" }.join(',')
+              column.collect { |col| handle_compound_sorting(col, direction) }.join(',')
             else
-              "#{column} #{direction}"
+              if match = column.match(/(.*)\s+reverse\s*$/)
+                "#{match[1]} #{'asc' == direction ?  'desc'  : 'asc'}"
+              else
+                "#{column} #{direction}"
+              end
             end
           end
         end

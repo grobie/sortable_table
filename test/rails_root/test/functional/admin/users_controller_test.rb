@@ -17,6 +17,16 @@ class Admin::UsersControllerTest < ActionController::TestCase
       "#{user.age}#{user.name}"
     end
 
+    should "sort 'reverse' attributes in reverse by default" do
+      get :index, :sort => 'age'
+      assert_equal User.all.sort_by(&:age), assigns(:users)
+    end
+
+    should "sort 'reverse' attributes in reverse of specified params[:order]" do
+      get :index, :sort => 'age', :order => 'ascending'
+      assert_equal User.all.sort_by(&:age).reverse, assigns(:users)
+    end
+
     should "not sort by unmapped key name when bogus sort is given" do
       assert_nothing_raised do
         get :index, :sort => 'invalid'
