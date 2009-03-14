@@ -54,7 +54,7 @@ module SortableTable
             if re_sort? opts
               reverse_order params[:order]
             else
-              reverse_order sortable_table_direction
+              sortable_table_direction
             end
           end
         end
