@@ -22,7 +22,7 @@ class UsersControllerTest < ActionController::TestCase
       "#{user.age}#{user.name}"
     end
 
-    should "show default to a title-cased version of 'sort' as the text of the header" do
+    should "default to a title-cased version of 'sort' as the text of the header" do
       get :index
       assert_select 'th > a', 'Age'
     end
