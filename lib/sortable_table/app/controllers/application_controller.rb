@@ -53,6 +53,7 @@ module SortableTable
         end
 
         module InstanceMethods
+          protected
           def default_sort_direction(order, default)
             case
             when ! order.blank?                           then normalize_direction(order)
