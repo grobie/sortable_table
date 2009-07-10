@@ -64,4 +64,3 @@ signing_key:
 specification_version: 2
 summary: Sort HTML tables in a Rails app.
 test_files: []
-
