@@ -55,36 +55,38 @@ module SortableTable
         end
         
         module InstanceMethods
-          def default_sort_direction(order, default)
-            case
-            when ! order.blank?                           then normalize_direction(order)
-            when default.is_a?(Hash) && default[:default] then normalize_direction(default[:default])
-            else "descending"
-            end
-          end
+          protected
 
-          def sql_sort_direction(direction)
-            case direction
-            when "ascending",  "asc" then "asc"
-            when "descending", "desc" then "desc"
+            def default_sort_direction(order, default)
+              case
+              when ! order.blank?                           then normalize_direction(order)
+              when default.is_a?(Hash) && default[:default] then normalize_direction(default[:default])
+              else "descending"
+              end
             end
-          end
 
-          def normalize_direction(direction)
-            case direction
-            when "ascending", "asc" then "ascending"
-            when "descending", "desc" then "descending"
-            else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")
+            def sql_sort_direction(direction)
+              case direction
+              when "ascending",  "asc" then "asc"
+              when "descending", "desc" then "desc"
+              end
             end
-          end
-          
-          def handle_compound_sorting(column, direction)
-            if column.is_a?(Array)
-              column.collect { |each| "#{each} #{direction}" }.join(',')
-            else
-              "#{column} #{direction}"
+
+            def normalize_direction(direction)
+              case direction
+              when "ascending", "asc" then "ascending"
+              when "descending", "desc" then "descending"
+              else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")
+              end
             end
-          end
+            
+            def handle_compound_sorting(column, direction)
+              if column.is_a?(Array)
+                column.collect { |each| "#{each} #{direction}" }.join(',')
+              else
+                "#{column} #{direction}"
+              end
+            end
         end
 
       end
