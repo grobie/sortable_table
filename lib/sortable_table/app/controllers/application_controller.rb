@@ -51,6 +51,7 @@ module SortableTable
             end
 
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
+            hide_action :sort_order, :default_sort_column, :sortable_table_direction, :sortable_table_direction=
           end
         end
         
