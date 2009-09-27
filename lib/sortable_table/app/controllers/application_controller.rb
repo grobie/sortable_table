@@ -49,47 +49,48 @@ module SortableTable
             end
 
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
+            hide_action :sort_order, :default_sort_column, :sortable_table_direction, :sortable_table_direction=
           end
         end
 
         module InstanceMethods
           protected
-          def default_sort_direction(order, default)
-            case
-            when ! order.blank?                           then normalize_direction(order)
-            when default.is_a?(Hash) && default[:default] then normalize_direction(default[:default])
-            else "descending"
-            end
-          end
 
-          def sql_sort_direction(direction)
-            case direction
-            when "ascending",  "asc" then "asc"
-            when "descending", "desc" then "desc"
-            end
-          end
-
-          def normalize_direction(direction)
-            case direction
-            when "ascending", "asc" then "ascending"
-            when "descending", "desc" then "descending"
-            else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")
-            end
-          end
-
-          def handle_compound_sorting(column, direction)
-            if column.is_a?(Array)
-              column.collect { |col| handle_compound_sorting(col, direction) }.join(',')
-            else
-              if match = column.match(/(.*)\s+reverse\s*$/)
-                "#{match[1]} #{'asc' == direction ?  'desc'  : 'asc'}"
-              else
-                "#{column} #{direction}"
+            def default_sort_direction(order, default)
+              case
+              when ! order.blank?                           then normalize_direction(order)
+              when default.is_a?(Hash) && default[:default] then normalize_direction(default[:default])
+              else "descending"
               end
             end
-          end
-        end
 
+            def sql_sort_direction(direction)
+              case direction
+              when "ascending",  "asc" then "asc"
+              when "descending", "desc" then "desc"
+              end
+            end
+
+            def normalize_direction(direction)
+              case direction
+              when "ascending", "asc" then "ascending"
+              when "descending", "desc" then "descending"
+              else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")
+              end
+            end
+
+            def handle_compound_sorting(column, direction)
+              if column.is_a?(Array)
+                column.collect { |col| handle_compound_sorting(col, direction) }.join(',')
+              else
+                if match = column.match(/(.*)\s+reverse\s*$/)
+                  "#{match[1]} #{'asc' == direction ?  'desc'  : 'asc'}"
+                else
+                  "#{column} #{direction}"
+                end
+              end
+            end
+        end
       end
     end
   end

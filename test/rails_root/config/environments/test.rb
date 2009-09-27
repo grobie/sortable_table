@@ -22,7 +22,6 @@ config.action_controller.allow_forgery_protection    = false
 config.action_mailer.delivery_method = :test
 
 require 'mocha'
-require 'quietbacktrace'
 require 'shoulda'
 require 'factory_girl'
 require 'redgreen'
