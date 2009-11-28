@@ -25,16 +25,13 @@ Rails::Initializer.run do |config|
   
   config.gem 'mocha',
              :version => '>= 0.9.3'
-  config.gem 'thoughtbot-quietbacktrace',
-             :lib => 'quietbacktrace',
+  config.gem 'quietbacktrace',
              :version => '>= 0.1.1'
-  config.gem 'thoughtbot-factory_girl',
-             :lib => 'factory_girl',
-             :source => 'http://gems.github.com',
+  config.gem 'factory_girl',
+             :source => 'http://gemcutter.org',
              :version => '>= 1.1.5'
-  config.gem 'thoughtbot-shoulda',
-             :lib => 'shoulda',
-             :source => 'http://gems.github.com',
+  config.gem 'shoulda',
+             :source => 'http://gemcutter.org',
              :version => '>= 2.0.6'
 
 end

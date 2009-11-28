@@ -12,13 +12,18 @@ module SortableTable
         module InstanceMethods
           def sortable_table_header(opts = {})
             raise ArgumentError if opts[:sort].nil?
-            anchor = opts[:anchor].blank? ? "" : "##{opts[:anchor]}"
             content_tag :th, 
-              link_to(opts[:name] || opts[:sort].to_s.titleize,
-                sortable_url(opts) + anchor, 
-                :title => opts[:title]),
+              sort_link_to(opts[:sort], opts[:name], opts),
               :class => sortable_table_header_classes(opts),
               :colspan => opts[:colspan]
+          end
+          
+          def sort_link_to(sort, name = nil, opts = {})
+            opts.merge!(:sort => sort, :name => name)
+            anchor = opts[:anchor].blank? ? "" : "##{opts[:anchor]}"
+            link_to(sortable_table_title(opts),
+              sortable_url(opts.merge(:sort => sort)) + anchor, 
+              :title => opts[:title])
           end
 
           def sortable_table_header_classes(opts)
@@ -31,6 +36,15 @@ module SortableTable
           def sortable_table_header_class(opts)
             if re_sort?(opts) || sorting_default?(opts)
               sortable_table_direction
+            end
+          end
+          
+          def sortable_table_title(opts)
+            text = opts[:name] || opts[:sort].to_s.titleize
+            if re_sort?(opts) || sorting_default?(opts)
+              text + (params[:order] == "ascending" ? " ▲" : " ▼")
+            else
+              text
             end
           end
 
