@@ -45,6 +45,18 @@ class ApplicationHelperTest < HelperTestCase
           assert @html.include?('Title ▼')
         end
       end
+      
+      context 'with :triangle => false' do
+        setup do
+          params[:sort] = "title"
+          params[:order] = "descending"
+          @html = sort_link_to(:title, "Title", :triangle => false)
+        end
+      
+        should "not append a triangle to the link text" do
+          assert @html.include?('Title</a>')
+        end
+      end
     end
   
     context 'sortable_table_header' do

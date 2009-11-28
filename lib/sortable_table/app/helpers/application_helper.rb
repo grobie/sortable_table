@@ -41,7 +41,7 @@ module SortableTable
           
           def sortable_table_title(opts)
             text = opts[:name] || opts[:sort].to_s.titleize
-            if re_sort?(opts) || sorting_default?(opts)
+            if opts[:triangle] != false && (re_sort?(opts) || sorting_default?(opts))
               text + (params[:order] == "ascending" ? " ▲" : " ▼")
             else
               text
