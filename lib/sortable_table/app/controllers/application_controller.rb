@@ -36,17 +36,21 @@ module SortableTable
             end
 
             attr_accessor :sortable_table_direction
+            
+            define_method(:order) do
+              column = params[:sort] || default_sort_column
+              column = acceptable_columns.first unless acceptable_columns.include?(column)
+              mappings[column.to_sym] || column
+            end
+            
+            define_method(:sort_mode) do |default|
+              direction = default_sort_direction(params[:order], default)
+              self.sortable_table_direction = direction
+              sql_sort_direction(direction).to_sym
+            end
 
             define_method(:sort_order) do |*default|
-              default = default.first
-              direction = default_sort_direction(params[:order], default)
-              column    = params[:sort] || default_sort_column
-              self.sortable_table_direction = direction
-
-              column = acceptable_columns.first unless acceptable_columns.include?(column)
-
-              handle_compound_sorting mappings[column.to_sym] || column,
-                                      sql_sort_direction(direction)
+              handle_compound_sorting order(), sort_mode(default.first).to_s
             end
 
             helper_method :sort_order, :default_sort_column, :sortable_table_direction
