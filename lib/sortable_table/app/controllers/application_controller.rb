@@ -40,7 +40,7 @@ module SortableTable
             define_method(:order) do
               column = params[:sort] || default_sort_column
               column = acceptable_columns.first unless acceptable_columns.include?(column)
-              mappings[column.to_sym] || column
+              (mappings[column.to_sym] || column).dup
             end
             
             define_method(:sort_mode) do |default|
@@ -63,8 +63,9 @@ module SortableTable
 
             def default_sort_direction(order, default)
               case
-              when ! order.blank?                           then normalize_direction(order)
-              when default.is_a?(Hash) && default[:default] then normalize_direction(default[:default])
+              when ! order.blank?                                 then normalize_direction(order)
+              when default.is_a?(Hash) && default[:default]       then normalize_direction(default[:default])
+              when default.is_a?(String) || default.is_a?(Symbol) then normalize_direction(default.to_s)
               else "descending"
               end
             end
@@ -77,7 +78,7 @@ module SortableTable
             end
 
             def normalize_direction(direction)
-              case direction
+              case direction.to_s
               when "ascending", "asc" then "ascending"
               when "descending", "desc" then "descending"
               else raise RuntimeError.new("Direction must be ascending, asc, descending, or desc")

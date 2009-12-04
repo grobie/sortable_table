@@ -34,15 +34,15 @@ module SortableTable
           end
           
           def sortable_table_header_class(opts)
-            if re_sort?(opts) || sorting_default?(opts)
+            if re_sort?(opts)
               sortable_table_direction
             end
           end
           
           def sortable_table_title(opts)
             text = opts[:name] || opts[:sort].to_s.titleize
-            if opts[:triangle] != false && (re_sort?(opts) || sorting_default?(opts))
-              text + (params[:order] == "ascending" ? " ▲" : " ▼")
+            if opts[:triangle] != false && re_sort?(opts)
+              text + (current_order() == "ascending" ? " ▲" : " ▼")
             else
               text
             end
@@ -52,8 +52,12 @@ module SortableTable
             params[:sort].nil? && opts[:sort].to_s == default_sort_column
           end
           
-          def re_sort?(opts)
+          def current_sort?(opts)
             params[:sort] == opts[:sort].to_s
+          end
+          
+          def re_sort?(opts)
+            current_sort?(opts) || sorting_default?(opts)
           end
           
           def reverse_order(order)
@@ -64,12 +68,12 @@ module SortableTable
             url_for(params.merge(:sort => opts[:sort], :order => link_sort_order(opts), :page => 1))
           end
           
+          def current_order
+            params[:order] || sortable_table_direction()
+          end
+          
           def link_sort_order(opts)
-            if re_sort? opts
-              reverse_order params[:order]
-            else
-              sortable_table_direction
-            end
+            re_sort?(opts) ? reverse_order(current_order()) : sortable_table_direction()
           end
         end
         
