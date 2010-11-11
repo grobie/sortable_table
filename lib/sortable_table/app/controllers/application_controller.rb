@@ -44,7 +44,7 @@ module SortableTable
             end
 
             define_method(:sort_mode) do |*default|
-              direction = default_sort_direction(params[:order], default)
+              direction = default_sort_direction(params[:order], default.first)
               self.sortable_table_direction = direction
               sql_sort_direction(direction).to_sym
             end
